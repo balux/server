@@ -13,7 +13,13 @@
 				</tr>
 			</thead>
 			<tbody>
-
+				<tr v-for="client, i in clients">
+					<td>{{client.name}}</td>
+					<td>{{client.redirectUri}}</td>
+					<td><code>{{client.clientId}}</code></td>
+					<td><code>{{client.clientSecret}}</code></td>
+					<td class="action-column"><span><a class="icon-delete has-tooltip" :title="t('oauth2', 'Delete')" v-on:click="deleteClient(client.id)">DELETE</a></span></td>
+				</tr>
 			</tbody>
 		</table>
 
@@ -28,17 +34,28 @@
 </template>
 
 <script>
-	import oauth2Row from './components/oauth2Row';
+	import axios from 'axios';
 
 	export default {
 		name: 'App',
-		components: {
-			oauth2Row,
-		},
 		data: function() {
 			return {
-				message: 'HELLO WORLD!'
+				clients: [],
 			};
+		},
+		mounted: function() {
+			var requestToken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
+			var tokenHeaders = { headers: { requesttoken: requestToken } };
+
+			axios.get(OC.linkTo('oauth2', 'clients'), tokenHeaders)
+				.then((response) => {
+					this.clients = response.data;
+				});
+		},
+		methods: {
+			deleteClient(id) {
+				console.log(id);
+			},
 		},
 	}
 </script>

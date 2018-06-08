@@ -26,6 +26,7 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -96,5 +97,23 @@ class SettingsController extends Controller {
 		$this->defaultTokenMapper->deleteByName($client->getName());
 		$this->clientMapper->delete($client);
 		return new RedirectResponse($this->urlGenerator->getAbsoluteURL('/index.php/settings/admin/security'));
+	}
+
+	public function getClients() {
+		$clients = $this->clientMapper->getClients();
+
+		$result = [];
+
+		foreach ($clients as $client) {
+			$result[] = [
+				'id' => $client->getId(),
+				'name' => $client->getName(),
+				'redirectUri' => $client->getRedirectUri(),
+				'clientId' => $client->getClientIdentifier(),
+				'clientSecret' => $client->getSecret(),
+			];
+		}
+
+		return new JSONResponse($result);
 	}
 }
