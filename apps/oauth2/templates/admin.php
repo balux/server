@@ -22,6 +22,7 @@
 $urlGenerator = \OC::$server->getURLGenerator();
 $themingDefaults = \OC::$server->getThemingDefaults();
 
+script('oauth2', 'merged');
 script('oauth2', 'setting-admin');
 style('oauth2', 'setting-admin');
 
@@ -29,6 +30,8 @@ style('oauth2', 'setting-admin');
 /** @var \OCA\OAuth2\Db\Client[] $clients */
 $clients = $_['clients'];
 ?>
+
+<div id="oauth22"></div>
 
 <div id="oauth2" class="section">
 	<h2><?php p($l->t('OAuth 2.0 clients')); ?></h2>
