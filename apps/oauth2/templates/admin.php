@@ -22,7 +22,7 @@
 $urlGenerator = \OC::$server->getURLGenerator();
 $themingDefaults = \OC::$server->getThemingDefaults();
 
-script('oauth2', 'merged');
+script('oauth2', 'app');
 script('oauth2', 'setting-admin');
 style('oauth2', 'setting-admin');
 

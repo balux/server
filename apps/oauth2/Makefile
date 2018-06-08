@@ -24,8 +24,8 @@ watch-js:
 	npm run watch
 
 clean:
-	rm -f js/merged.js
-	rm -f js/merged.js.map
+	rm -f js/app.js
+	rm -f js/app.js.map
 	rm -rf $(build_dir)
 
 clean-dev:

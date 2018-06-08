@@ -2,11 +2,11 @@ const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
-	entry: './js-src/init.js',
+	entry: './js-src/main.js',
   output: {
 		path: path.resolve(__dirname, '../js'),
 		publicPath: '/',
-		filename: 'merged.js'
+		filename: 'app.js'
   },
   module: {
     rules: [
