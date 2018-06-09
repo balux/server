@@ -18,16 +18,16 @@
 					<td>{{client.redirectUri}}</td>
 					<td><code>{{client.clientId}}</code></td>
 					<td><code>{{client.clientSecret}}</code></td>
-					<td class="action-column"><span><a class="icon-delete has-tooltip" :title="t('oauth2', 'Delete')" v-on:click="deleteClient(client.id)">DELETE</a></span></td>
+					<td class="action-column"><span><a class="icon-delete has-tooltip" :title="t('oauth2', 'Delete')" v-on:click="deleteClient(client.id, i)">DELETE</a></span></td>
 				</tr>
 			</tbody>
 		</table>
 
 		<br/>
 		<h3>{{ t('oauth2', 'Add client') }}</h3>
-		<form action="" method="POST">
-			<input type="text" id="name" name="name" :placeholder="t('oauth2', 'Name')">
-			<input type="url" id="redirectUri" name="redirectUri" :placeholder="t('oauth2', 'Redirection URI')">
+		<form @submit.prevent="addClient">
+			<input type="text" id="name" name="name" :placeholder="t('oauth2', 'Name')" v-model="newClient.name">
+			<input type="url" id="redirectUri" name="redirectUri" :placeholder="t('oauth2', 'Redirection URI')" v-model="newClient.redirctUri">
 			<input type="submit" class="button" :value="t('oauth2', 'Add')">
 		</form>
 	</div>
@@ -41,6 +41,10 @@
 		data: function() {
 			return {
 				clients: [],
+				newClient: {
+					name: '',
+					redirctUri: ''
+				}
 			};
 		},
 		mounted: function() {
@@ -53,9 +57,33 @@
 				});
 		},
 		methods: {
-			deleteClient(id) {
-				console.log(id);
+			deleteClient(id, i) {
+				var requestToken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
+				var tokenHeaders = { headers: { requesttoken: requestToken } };
+
+				axios.delete(OC.linkTo('oauth2', 'clients/' + id), tokenHeaders)
+					.then((response) => {
+						this.clients.splice(i, 1)
+					});
 			},
+			addClient() {
+				var requestToken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
+				var tokenHeaders = { headers: { requesttoken: requestToken } };
+
+				axios.post(
+						OC.linkTo('oauth2', 'clients'),
+						{
+							name: this.newClient.name,
+							redirectUri: this.newClient.redirctUri
+						},
+						tokenHeaders)
+					.then((response) => {
+						this.clients.push(response.data)
+
+						this.newClient.name = '';
+						this.newClient.redirctUri = '';
+					});
+			}
 		},
 	}
 </script>

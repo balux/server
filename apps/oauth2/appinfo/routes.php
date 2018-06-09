@@ -23,7 +23,7 @@ return [
 	'routes' => [
 		[
 			'name' => 'Settings#addClient',
-			'url' => '/settings',
+			'url' => '/clients',
 			'verb' => 'POST',
 		],
 		[
@@ -33,8 +33,8 @@ return [
 		],
 		[
 			'name' => 'Settings#deleteClient',
-			'url' => '/clients/{id}/delete',
-			'verb' => 'POST'
+			'url' => '/clients/{id}',
+			'verb' => 'DELETE'
 		],
 		[
 			'name' => 'LoginRedirector#authorize',
