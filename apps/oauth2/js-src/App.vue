@@ -17,7 +17,7 @@
 					<td>{{client.name}}</td>
 					<td>{{client.redirectUri}}</td>
 					<td><code>{{client.clientId}}</code></td>
-					<td><code>{{client.clientSecret}}</code></td>
+					<td><code v-if="client.secret === undefined">****</code><a class='icon-toggle has-tooltip' :title="t('oauth2', 'Show client secret')" v-on:click="toggleSecret(i)">SHOW SECRET</a></td>
 					<td class="action-column"><span><a class="icon-delete has-tooltip" :title="t('oauth2', 'Delete')" v-on:click="deleteClient(client.id, i)">DELETE</a></span></td>
 				</tr>
 			</tbody>
@@ -83,6 +83,15 @@
 						this.newClient.name = '';
 						this.newClient.redirctUri = '';
 					});
+			},
+			toggleSecret(i) {
+				console.log(this.clients[i].secret);
+				if (this.clients[i].secret === undefined) {
+					this.clients[i].secret = this.clients[i].clientSecret;
+				} else {
+					this.clients[i].secret = undefined;
+				}
+				console.log(this.clients[i].secret);
 			}
 		},
 	}
