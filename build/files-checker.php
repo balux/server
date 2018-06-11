@@ -67,6 +67,7 @@ $expectedFiles = [
 	'occ',
 	'ocs',
 	'ocs-provider',
+	'ocm-provider',
 	'public.php',
 	'README.md',
 	'remote.php',
